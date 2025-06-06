@@ -1,0 +1,1576 @@
+XBRU-MF4P-QORC-6IOP     recovery Code
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCSE Religious Studies Revision Flashcards</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- PWA: Link to manifest.json -->
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        .flashcard-container {
+            perspective: 1000px; /* For 3D flip effect */
+            height: 400px; /* Fixed height for flashcard */
+            max-height: 70vh; /* Max height relative to viewport */
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden; /* Ensure content stays within rounded corners */
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden; /* Added for WebKit browsers */
+            transform-style: preserve-3d; /* Ensures 3D context for each face */
+            top: 0; /* Ensures consistent positioning */
+            left: 0; /* Ensures consistent positioning */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-sizing: border-box;
+            word-wrap: break-word; /* Ensure text wraps */
+        }
+        .flashcard-front {
+            background-color: #ffffff; /* White background for front */
+            color: #333; /* Dark text for contrast */
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .flashcard-back {
+            background-color: #e0f2f7; /* Lighter blue for back */
+            color: #212121; /* Even darker text */
+            transform: rotateY(180deg);
+            font-size: 1.25rem;
+            line-height: 1.6;
+            display: flex;
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+        }
+        .control-button {
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .control-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .flashcard-front {
+                font-size: 1.25rem;
+            }
+            .flashcard-back {
+                font-size: 1rem;
+            }
+            .flashcard-container {
+                height: 350px;
+            }
+            .control-button {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-200">
+    <div class="container bg-white p-6 rounded-xl shadow-lg flex flex-col items-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">GCSE Religious Studies Revision</h1>
+
+        <div class="flashcard-container w-full mb-8">
+            <div id="flashcard" class="flashcard">
+                <div id="flashcard-front" class="flashcard-face flashcard-front">
+                    <!-- Question will be inserted here -->
+                </div>
+                <div id="flashcard-back" class="flashcard-face flashcard-back">
+                    <!-- Answer will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group flex flex-wrap justify-center gap-4 w-full">
+            <button id="toggleAnswer" class="control-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+                Show Answer
+            </button>
+            <button id="prevCard" class="control-button bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg">
+                Previous
+            </button>
+            <button id="nextCard" class="control-button bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg">
+                Next
+            </button>
+        </div>
+
+        <p class="text-gray-600 mt-6 text-sm">Card <span id="currentCardNum">1</span> of <span id="totalCards">X</span></p>
+    </div>
+
+    <script>
+        const flashcards = [
+            // Section 1: Jewish Identity & Foundations
+            {
+                question: "What does it mean for the Jewish People to be a Diaspora, and how does this impact their culture?",
+                answer: "The Jewish People are a Diaspora, meaning they live outside their ancestral homeland. This impacts their culture and religion by fostering diversity as they adapt to different societies while maintaining a shared heritage."
+            },
+            {
+                question: "Name the three key differences in Jewish culture as mentioned (Reform, Orthodox, and Secular).",
+                answer: "The three key differences are Reform Judaism, Orthodox Judaism, and Secular Judaism. These represent different approaches to Jewish law, tradition, and modern life."
+            },
+            {
+                question: "Who created the 13 principles to unite Jewish diversity?",
+                answer: "Maimonides created the 13 principles of Jewish faith to provide a foundational theological framework and unite the diverse Jewish communities."
+            },
+            {
+                question: "What is the central declaration of Jewish faith regarding God's nature, often recited in the Shema?",
+                answer: "The central declaration is that 'God is One,' as taught in the Shema ('Hear O Israel, the Lord is our God, the Lord is One' – Deuteronomy 6:4). This emphasizes monotheism."
+            },
+            {
+                question: "What was Maimonides' purpose in creating the 13 principles?",
+                answer: "Maimonides' purpose was to unite Jewish diversity by setting out fundamental beliefs that all Jews could agree upon, providing a coherent framework for Jewish faith and practice."
+            },
+
+            // Section 2: God as Creator, Law-Giver & Judge
+            {
+                question: "According to Genesis 1:3-5 and 1:26-28, what two main attributes describe God as Creator?",
+                answer: "God is described as the Creator who brings light into existence and creates humans in His image, giving them responsibility over creation."
+            },
+            {
+                question: "In which biblical book and chapter does God give the Ten Commandments, demonstrating His role as Law-Giver?",
+                answer: "God gives the Ten Commandments in Exodus 20:1–15, setting out moral laws to guide Jewish life and showing His role as Law-Giver."
+            },
+            {
+                question: "How is God seen as a Judge in Jewish belief, and what is the basis for His accountability?",
+                answer: "God is seen as a Judge who holds people accountable for obeying His laws, rewarding or punishing based on their actions. This basis is rooted in divine justice."
+            },
+            {
+                question: "How does God's role as Law-Giver connect to His role as Creator, as described in Jewish texts?",
+                answer: "As the Creator, God established the order of the universe and humanity, and as the Law-Giver, He provides the moral framework necessary for humanity to live within that order and fulfill its purpose."
+            },
+            {
+                question: "What responsibility were humans given over creation according to Genesis 1:26-28?",
+                answer: "Humans were created in God's image and given responsibility (dominion/stewardship) over creation, implying a duty to care for and manage the Earth."
+            },
+
+            // Section 3: Divine Presence (Shekhinah)
+            {
+                question: "What does the concept of Shekhinah refer to in Jewish belief?",
+                answer: "Shekhinah refers to the divine presence of God, believed to dwell among the people."
+            },
+            {
+                question: "Where is the divine presence of God specifically believed to dwell, according to Jewish tradition?",
+                answer: "The Shekhinah is believed to dwell among the people, especially in the Temple, and during study, worship, or times of suffering."
+            },
+            {
+                question: "During what times is the Shekhinah believed to be present among the people, especially in times of suffering?",
+                answer: "The Shekhinah is believed to be present during study, worship, and particularly during times of suffering, offering comfort and divine presence."
+            },
+            {
+                question: "How does the idea of Shekhinah relate to God's attributes as a Law-Giver and Judge?",
+                answer: "The Shekhinah signifies God's immanent presence, reinforcing that the Law-Giver and Judge is not distant but intimately involved with His people, observing their adherence to laws and being present in their experiences."
+            },
+            {
+                question: "Name two attributes of God found in the Jewish creation accounts in Genesis.",
+                answer: "Two attributes are Creator (bringing existence from nothing, organizing the universe) and Giver of responsibility (giving humans stewardship over creation)."
+            },
+
+            // Section 4: Abrahamic Covenant & Sign
+            {
+                question: "What is the Abrahamic Covenant, and what specific promises did God make to Abraham?",
+                answer: "The Abrahamic Covenant is a key moment in Jewish belief where God promises Abraham that he will be the father of a great nation (Genesis 12:1–3) and that his descendants will inherit the Promised Land (Genesis 17:6–8)."
+            },
+            {
+                question: "Which biblical passages detail the Abrahamic Covenant?",
+                answer: "Genesis 12:1–3 and Genesis 17:6–8."
+            },
+            {
+                question: "What is the physical sign of the Abrahamic Covenant, and why is it an important religious duty for Jewish males?",
+                answer: "The physical sign of the Abrahamic Covenant is circumcision (Genesis 17:11–14), which remains an important religious duty for Jewish males as a symbol of their covenantal relationship with God."
+            },
+            {
+                question: "How does the Abrahamic Covenant relate to the earlier Jewish belief that God is One?",
+                answer: "The Abrahamic Covenant demonstrates God's unique relationship with a chosen people, emphasizing His singular power and faithfulness in fulfilling promises, reinforcing the concept of God as One who actively engages with humanity."
+            },
+            {
+                question: "In what contexts is the Shekhinah believed to dwell among the Jewish people?",
+                answer: "The Shekhinah is believed to dwell among the people in the Temple, and during study, worship, or times of suffering, signifying God's active presence."
+            },
+
+            // Section 5: Mosaic Covenant & Ten Commandments
+            {
+                question: "What significant event occurred during the Covenant with Moses at Mount Sinai?",
+                answer: "During the Covenant with Moses at Mount Sinai, God revealed Himself and gave the Torah, including the Ten Commandments, to the Israelites."
+            },
+            {
+                question: "What name did God reveal to Moses at Mount Sinai?",
+                answer: "God revealed His sacred name YHWH (often pronounced Yahweh or substituted with Adonai) to Moses at Mount Sinai, signifying 'I Am Who I Am' or 'I Will Be What I Will Be' (Exodus 3:14)."
+            },
+            {
+                question: "What do the Ten Commandments teach regarding relationships with God and fellow humans?",
+                answer: "The Ten Commandments teach foundational moral and religious laws, guiding Jews on how to relate to God (e.g., no other gods, no idols, honouring God's name, observing Shabbat) and to fellow humans (e.g., honouring parents, no murder, no adultery, no stealing, no false witness, no coveting)."
+            },
+            {
+                question: "How did God renew the promise made to Abraham through the Covenant with Moses?",
+                answer: "Through the Covenant with Moses, God renewed the promise to Abraham by establishing Israel as His chosen people through laws and commandments, further solidifying their national identity and their inheritance of the Promised Land, contingent on their obedience."
+            },
+            {
+                question: "What biblical passage highlights circumcision as the sign of the Abrahamic Covenant?",
+                answer: "Genesis 17:11–14 highlights circumcision as the sign of the Abrahamic Covenant, stating it is a mark of the covenant between God and Abraham's descendants."
+            },
+
+            // Section 6: The Promised Land & Hope
+            {
+                question: "Why is the concept of the Promised Land important in both the Abrahamic Covenant and the Covenant with Moses?",
+                answer: "In the Abrahamic Covenant, it's the land God promised Abraham's descendants; in the Mosaic Covenant, it's the destination after liberation from Egypt, central to their national identity and religious fulfillment."
+            },
+            {
+                question: "What does the Promised Land symbolise in Jewish identity and history?",
+                answer: "The Promised Land symbolises God’s faithfulness, a place of peace and security, and the spiritual home of the Jewish people, central to their historical and religious narratives."
+            },
+            {
+                question: "How does the Promised Land represent God's faithfulness to His covenants?",
+                answer: "It represents God's faithfulness as He promised this land to Abraham and delivered the Israelites to it under Moses and Joshua, demonstrating His power and commitment to His covenantal promises."
+            },
+            {
+                question: "Explain how the Promised Land connects to the idea of the Jewish People being a Diaspora.",
+                answer: "The Promised Land serves as a focal point for Jewish identity and hope, even for those living in the Diaspora. It represents their spiritual and ancestral home, fostering unity and a sense of belonging despite geographical dispersion."
+            },
+            {
+                question: "Name three elements included in the Shabbat service in Jewish worship.",
+                answer: "Three elements included in the Shabbat service are prayers (like the Amidah), Torah readings, and sermons/d'var Torah."
+            },
+
+            // Section 7: Messiah (Orthodox Belief)
+            {
+                question: "According to Orthodox Jews, who will the Messiah be descended from?",
+                answer: "According to Orthodox Jews, the Messiah will be descended from King David (Mashiach ben David)."
+            },
+            {
+                question: "What two specific actions will the Messiah perform in Jerusalem?",
+                answer: "The Messiah will rebuild the Temple in Jerusalem and gather all Jews back to the Land of Israel."
+            },
+            {
+                question: "What will the coming of the Messiah mark the start of, according to Orthodox belief?",
+                answer: "The coming of the Messiah will mark the start of the Messianic Age, a time of universal peace, justice, and knowledge of God."
+            },
+            {
+                question: "How do Orthodox Jews' beliefs about the Messiah connect to the concept of the Promised Land?",
+                answer: "The Messiah's coming is intrinsically linked to the Promised Land, as he is expected to gather all Jews back to Israel and rebuild the Temple in Jerusalem, fulfilling long-held prophecies related to their return and spiritual restoration in the land."
+            },
+            {
+                question: "What is the central declaration of Jewish faith about God's nature, and where is it found?",
+                answer: "The central declaration is 'God is One,' found in the Shema (Deuteronomy 6:4), emphasizing monotheism."
+            },
+
+            // Section 8: Messiah (Orthodox Prayer)
+            {
+                question: "How often do Orthodox Jews pray for the coming of the Messiah?",
+                answer: "Orthodox Jews pray daily for the coming of the Messiah, often in their Amidah (standing prayer)."
+            },
+            {
+                question: "How do Orthodox Jews view the coming of the Messiah (as a real, future event or symbolically)?",
+                answer: "Orthodox Jews view the coming of the Messiah as a real, literal, and future event, not merely a symbolic ideal."
+            },
+            {
+                question: "What will the Messianic Age signify for Orthodox Jews?",
+                answer: "The Messianic Age will signify a time of universal peace, justice, spiritual enlightenment, and the complete redemption of the Jewish people and the world."
+            },
+            {
+                question: "How does daily prayer for the Messiah reflect Orthodox Jewish belief in a future, tangible event?",
+                answer: "Daily prayer for the Messiah reinforces the Orthodox belief in his literal coming by keeping the expectation alive and central to their religious life, demonstrating a fervent hope for a physical redemption and not just a spiritual ideal."
+            },
+            {
+                question: "What is the meaning of Shekhinah in Jewish belief?",
+                answer: "Shekhinah refers to the divine presence of God, believed to dwell among the people, especially in the Temple, and during study, worship, or times of suffering."
+            },
+
+            // Section 9: Messiah (Reform Interpretation)
+            {
+                question: "How do Reform Jews often interpret the idea of the Messiah?",
+                answer: "Reform Jews often interpret the idea of the Messiah as a Messianic Age, a time of universal peace and justice brought about by human effort, rather than a single individual."
+            },
+            {
+                question: "What do Reform Jews believe people themselves must do to bring peace and justice to the world?",
+                answer: "Reform Jews believe people themselves must actively work to bring about peace and justice (tikkun olam, 'repairing the world') by living ethically and striving for social action."
+            },
+            {
+                question: "What distinguishes the Reform interpretation from the Orthodox one regarding the Messiah?",
+                answer: "The Reform interpretation focuses on a collective, evolving Messianic Age brought about by human action, whereas Orthodox Judaism anticipates a literal, individual Messiah who will usher in a perfected world."
+            },
+            {
+                question: "How does the Reform view of the Messiah influence their focus on living by mitzvot?",
+                answer: "The Reform view shifts the focus of mitzvot from strict adherence to ritual law towards ethical commandments and social justice, seeing them as tools to actively contribute to bringing about the Messianic Age in the present world."
+            },
+            {
+                question: "What two specific actions will the Messiah perform in Jerusalem, according to Orthodox Jewish belief?",
+                answer: "The Messiah will rebuild the Temple in Jerusalem and gather all Jews back to the Land of Israel."
+            },
+
+            // Section 10: Reform Focus: Mitzvot for Present Life
+            {
+                question: "What does Reform Judaism focus on more, rather than speculating about the coming of the Messiah?",
+                answer: "Reform Judaism focuses more on ethical living and social action (tikkun olam) in the present world."
+            },
+            {
+                question: "What specifically do Reform Jews focus on living by to bring about a better world?",
+                answer: "Reform Jews focus on living by the ethical and moral commandments (mitzvot) related to justice, compassion, and repairing the world."
+            },
+            {
+                question: "How does this focus contrast with Orthodox Jewish expectations about the Messiah?",
+                answer: "This contrasts with Orthodox expectations of a literal Messiah ushering in a perfected world, as Reform Judaism places greater emphasis on human agency and responsibility in actively creating a better world now."
+            },
+            {
+                question: "How does the concept of Shekhinah relate to the idea of human actions bringing peace and justice, particularly in Reform Judaism?",
+                answer: "In Reform Judaism, Shekhinah can be understood as God's presence being revealed when humans actively work for justice and peace, seeing their efforts as a partnership with the divine to bring about a more perfected world."
+            },
+            {
+                question: "How often do Orthodox Jews pray for the coming of the Messiah?",
+                answer: "Orthodox Jews pray daily for the coming of the Messiah."
+            },
+
+            // Section 11: Hope for a Better World (Orthodox vs. Reform Differences)
+            {
+                question: "What do both Orthodox and Reform traditions believe in regarding a better world?",
+                answer: "Both Orthodox and Reform traditions believe in the coming of a better, more perfected world, characterized by peace, justice, and a deeper understanding of God."
+            },
+            {
+                question: "How do Orthodox and Reform Jews differ in how this hope for a better world will be fulfilled?",
+                answer: "Orthodox Jews believe it will be fulfilled by a literal, individual Messiah; Reform Jews believe it's a gradual Messianic Age brought about by human action and ethical living."
+            },
+            {
+                question: "Summarise the core difference in approach between Orthodox and Reform Jews regarding the Messiah and a better world.",
+                answer: "Orthodox Jews await a divine intervention by a personal Messiah to perfect the world, while Reform Jews emphasize human partnership with God in actively working towards a Messianic Age of justice and peace in the present."
+            },
+            {
+                question: "Relate the concept of the Promised Land to the hope for a better world in both traditions.",
+                answer: "For Orthodox Jews, the Promised Land is the physical place where the Messiah will establish this perfected world. For Reform Jews, it can be a symbol of the ideal society they strive to create globally through their actions."
+            },
+            {
+                question: "What biblical passage describes God as a Law-Giver, and what is the purpose of the laws given?",
+                answer: "Exodus 20:1–15 describes God as a Law-Giver, providing the Ten Commandments to set out moral laws to guide Jewish life and establish a covenantal relationship."
+            },
+
+            // Section 12: Pikuach Nefesh & Sanctity of Life (Jewish)
+            {
+                question: "What is Pikuach Nefesh, and what does it demonstrate about the value of human life?",
+                answer: "Pikuach Nefesh is the Jewish belief that saving a human life overrides almost every other religious commandment. It demonstrates the supreme and infinite value of human life in Judaism."
+            },
+            {
+                question: "How does Pikuach Nefesh relate to other religious commandments in Jewish law?",
+                answer: "It means that almost all other religious commandments, except for idolatry, murder, and certain sexual offenses, can be temporarily suspended or violated if it means saving a human life."
+            },
+            {
+                question: "Give an example of when Pikuach Nefesh might take priority over ritual law.",
+                answer: "A Jewish doctor performing surgery on Shabbat (Sabbath) or administering non-kosher food to a critically ill patient would be examples where Pikuach Nefesh takes priority over ritual law."
+            },
+            {
+                question: "According to Genesis 1:26–27, what concept gives every human life infinite value and dignity?",
+                answer: "The concept that humans are created 'b’tzelem Elohim' (in the image of God) gives every human life infinite value and dignity."
+            },
+            {
+                question: "How do Reform Jews interpret the idea of the Messiah, and what do they believe people themselves must do?",
+                answer: "Reform Jews interpret the Messiah as a Messianic Age of peace and justice, believing people must actively work (tikkun olam) to bring it about through ethical living and social action."
+            },
+
+            // Section 13: Sanctity of Life (Talmud on Pikuach Nefesh & Imago Dei)
+            {
+                question: "What does the Talmud (Yoma 84b) teach about breaking laws in the context of saving a life?",
+                answer: "The Talmud (Yoma 84b) teaches that it is not only permissible but a religious obligation to break almost any law in order to save a human life."
+            },
+            {
+                question: "Under what circumstance does the Talmud state that laws can be broken, and what specific day is given as an example?",
+                answer: "Laws can be broken to save a life, even on the Sabbath (Shabbat), which is one of the most sacred days, if it means preserving human life."
+            },
+            {
+                question: "How does the Talmud's teaching reinforce the supreme value of life in Jewish belief?",
+                answer: "The Talmud's teaching elevates the preservation of human life above almost all other commandments, showing that life itself is a foundational value given by God and is paramount."
+            },
+            {
+                question: "How does the idea of humans being made in God's image (b’tzelem Elohim) connect to Pikuach Nefesh and the sanctity of life?",
+                answer: "Being made in God's image means every human possesses inherent dignity and worth, making their life sacred and justifying the principle of Pikuach Nefesh to preserve it above all else."
+            },
+            {
+                question: "What does the Jewish belief that saving a human life overrides almost every other religious commandment mean?",
+                answer: "It means that the preservation of human life is paramount, and nearly all other mitzvot can be set aside to ensure a life is saved, demonstrating the supreme value placed on human life."
+            },
+
+            // Section 14: Free Will & Mitzvot
+            {
+                question: "What does free will allow Jews to choose in their lives?",
+                answer: "Free will allows Jews to choose between obeying God’s commandments (mitzvot) and doing evil, thus determining their moral path and relationship with God."
+            },
+            {
+                question: "What are the 613 mitzvot, and what do they govern in Jewish life?",
+                answer: "The 613 mitzvot are the commandments given by God in the Torah. They govern almost every aspect of Jewish life, including religious rituals, ethical behavior, and social justice."
+            },
+            {
+                question: "How does the concept of free will relate to God's role as a Judge in Jewish belief?",
+                answer: "Free will is essential to God's role as a Judge because it means humans are accountable for their actions. Without the freedom to choose, God could not justly reward or punish based on obedience to His laws."
+            },
+            {
+                question: "How do the mitzvot provide guidance for Jews in exercising their free will responsibly?",
+                answer: "The mitzvot provide a clear framework and moral compass, guiding Jews towards choices that align with God's will and promote a just and holy life, thus enabling responsible exercise of free will."
+            },
+            {
+                question: "According to Genesis 1:26-27, what two qualities are given to every human life because they are made in the image of God?",
+                answer: "Every human life is given inherent value and dignity because they are made in the image of God (b’tzelem Elohim)."
+            },
+
+            // Section 15: Jewish Afterlife & Judgment
+            {
+                question: "What do Orthodox Jews believe about the resurrection of the dead, and when will it happen?",
+                answer: "Orthodox Jews believe in the bodily resurrection of the dead, which they anticipate will occur during the Messianic Age, after the coming of the Messiah."
+            },
+            {
+                question: "What are Reform Jews more likely to believe in regarding the afterlife, and how do they see it?",
+                answer: "Reform Jews are more likely to believe in the immortality of the soul and a spiritual continuation of life after death, rather than a bodily resurrection."
+            },
+            {
+                question: "What do both Orthodox and Reform Jews believe about God's judgment, and what is the difference in their views regarding when it happens?",
+                answer: "Both believe in God's judgment, but Orthodox Jews believe it occurs at the time of resurrection and/or immediately after death, while Reform Jews tend to emphasize a spiritual judgment throughout life and after death."
+            },
+            {
+                question: "Why are Jewish beliefs about the afterlife not clearly defined in the Torah?",
+                answer: "Jewish beliefs about the afterlife are not clearly defined in the Torah because the Torah primarily focuses on life in this world and the covenantal relationship between God and the Jewish people on Earth."
+            },
+            {
+                question: "What does the Talmud (Yoma 84b) teach about breaking laws for the sake of saving a life?",
+                answer: "The Talmud (Yoma 84b) teaches that almost all laws can be broken to save a human life, even on the Sabbath, underscoring the supreme value of life."
+            },
+
+            // Section 16: Mourning Practices (Initial: Onan, Chevra Kaddisha, Kaddish)
+            {
+                question: "What is 'onan' in Jewish mourning customs, and what is the focus of the close family during this period?",
+                answer: "Onan is the period between death and burial. During this time, the close family's focus is solely on caring for the deceased, and they are exempt from certain religious obligations."
+            },
+            {
+                question: "What is the role of the chevra kaddisha, and what two specific actions do they perform when preparing the body for burial?",
+                answer: "The chevra kaddisha is a holy society that prepares the deceased for burial. They perform the ritual washing (taharah) and dressing of the body in simple shrouds."
+            },
+            {
+                question: "What is the kaddish, and what does this prayer praise rather than mentioning death?",
+                answer: "The kaddish is a mourner's prayer that praises and magnifies God's name, expressing the mourner's acceptance of divine judgment and reaffirming faith, rather than directly mentioning death or the deceased."
+            },
+            {
+                question: "How does the work of the chevra kaddisha reflect the sanctity of life in Jewish tradition?",
+                answer: "The chevra kaddisha treats the body with utmost respect and dignity, reflecting the Jewish belief in the sanctity of life, which extends even after death, acknowledging the deceased as having been created in God's image."
+            },
+            {
+                question: "What do Reform Jews focus on living by, rather than speculating about the next life?",
+                answer: "Reform Jews focus on living a good, ethical life and performing mitzvot in the present world, rather than extensively speculating about the afterlife."
+            },
+
+            // Section 17: Mourning Practices (Extended: Shiva, Yahrzeit)
+            {
+                question: "What is shiva, and what do family members typically do during this first seven days of mourning?",
+                answer: "Shiva is the first seven days of intense mourning following burial. Family members gather at the mourner's home, sit on low chairs, cover mirrors, and receive visitors, providing comfort and support."
+            },
+            {
+                question: "Who visits mourners during shiva, and for what purpose?",
+                answer: "Friends, family, and community members visit mourners during shiva to offer condolences, support, and practical assistance, and to participate in daily prayers (minyan) held in the home."
+            },
+            {
+                question: "What is yahrzeit, and how is this annual remembrance often marked?",
+                answer: "Yahrzeit is the annual anniversary of a loved one's death. It is often marked by lighting a special yahrzeit candle, reciting the Kaddish prayer, and giving tzedakah (charity) in memory of the deceased."
+            },
+            {
+                question: "How do shiva and yahrzeit contribute to ongoing honour and memory of the deceased?",
+                answer: "Shiva provides an immediate, concentrated period for grief and community support, while yahrzeit ensures an annual, lasting remembrance, helping to keep the deceased's memory alive and integrated into the family's and community's life."
+            },
+            {
+                question: "What is the kaddish, and what does saying it show about the mourner's faith?",
+                answer: "The Kaddish is a prayer that praises God. Saying it shows the mourner's acceptance of God's will and continued faith even in times of grief, affirming God's justice and sovereignty."
+            },
+
+            // Section 18: Synagogue Worship & Diversity
+            {
+                question: "What do both Orthodox and Reform Jews value regarding worship in the synagogue?",
+                answer: "Both Orthodox and Reform Jews value communal prayer and worship in the synagogue as a central part of their religious life, fostering community and connection to God."
+            },
+            {
+                question: "What are two key differences between Orthodox and Reform synagogue services regarding language and seating?",
+                answer: "Orthodox services are primarily in Hebrew with gender-segregated seating, while Reform services often incorporate the vernacular language (e.g., English) and have mixed-gender seating."
+            },
+            {
+                question: "What three elements are typically included in the Shabbat service?",
+                answer: "The Shabbat service typically includes prayers (Tefillah/Amidah), Torah readings, and a sermon (D'var Torah)."
+            },
+            {
+                question: "Which prayer is considered one of the most important in the Shabbat service, and what does it express?",
+                answer: "The Amidah (standing prayer) is one of the most important, expressing petitions, praises, and thanksgivings to God."
+            },
+            {
+                question: "What is shiva, and how long does it last?",
+                answer: "Shiva is the initial seven-day period of mourning immediately following the burial of a loved one, observed by immediate family members."
+            },
+
+            // Section 19: Home Worship & Ritual Items
+            {
+                question: "What is considered central to Jewish life regarding worship, extending beyond the synagogue?",
+                answer: "Worship in the home is central to Jewish life, with practices like daily prayers, blessings over food, and Shabbat observance forming the spiritual core of the Jewish family."
+            },
+            {
+                question: "Name two prayers commonly said at home, and describe the purpose of a siddur in home worship.",
+                answer: "Two commonly said prayers are the Shema and Modeh Ani. A siddur (prayer book) is used in home worship as a guide for prayers, blessings, and readings, ensuring consistency and adherence to tradition."
+            },
+            {
+                question: "What is a mezuzah, where is it fixed, and what does it remind Jews of?",
+                answer: "A mezuzah is a small parchment scroll containing verses from the Shema, fixed to the doorposts of Jewish homes. It reminds Jews of God’s presence, their covenant, and His commandments."
+            },
+            {
+                question: "Name three religious items worn during Jewish prayer, and state their general purpose.",
+                answer: "Three items are the Tallit (prayer shawl for holiness/commandments), Tefillin (phylacteries for binding God's words to mind and heart), and Kippah/Yarmulke (skullcap for respect and humility before God)."
+            },
+            {
+                question: "How do Orthodox and Reform synagogue services typically differ in their use of Hebrew and seating arrangements?",
+                answer: "Orthodox services predominantly use Hebrew with gender-segregated seating, while Reform services often use the local vernacular and have mixed-gender seating."
+            },
+
+            // Section 20: Life Cycle Events (Youth)
+            {
+                question: "What is Brit Milah, and when is it performed for baby boys?",
+                answer: "Brit Milah is the ritual circumcision ceremony for Jewish baby boys, performed on the eighth day after birth."
+            },
+            {
+                question: "What two things does Brit Milah symbolise and mark for Jewish males?",
+                answer: "Brit Milah symbolises the covenant between God and the Jewish people (Abrahamic Covenant) and marks the entry of the baby boy into the Jewish community."
+            },
+            {
+                question: "What is Bar Mitzvah, and at what age does it occur for Jewish boys?",
+                answer: "Bar Mitzvah is the coming-of-age ceremony for Jewish boys, occurring at the age of 13."
+            },
+            {
+                question: "How do Orthodox Jews typically mark Bat Mitzvah for girls, and how might Reform Jews celebrate it differently?",
+                answer: "Orthodox Jews may mark Bat Mitzvah (age 12) with a less public celebration, focusing on private study. Reform Jews often have a public synagogue ceremony (Bat Mitzvah or Bat Chayil) similar to Bar Mitzvah, where girls may lead parts of the service."
+            },
+            {
+                question: "Name one specific action involved in preparing for Shabbat at home.",
+                answer: "One action is lighting the Shabbat candles before sunset on Friday evening, accompanied by a blessing, symbolizing the start of Shabbat."
+            },
+
+            // Section 21: Life Cycle Events (Adult & Importance)
+            {
+                question: "What biblical passage serves as the basis for Jewish marriage, and what does it teach about the marital bond?",
+                answer: "Jewish marriage is based on Genesis 2:24, which teaches that 'a man leaves his father and mother and is united to his wife, and they become one flesh,' emphasizing unity and permanence."
+            },
+            {
+                question: "Name four elements typically included in Jewish marriage ceremonies.",
+                answer: "Four elements include the chuppah (wedding canopy), ketubah (marriage contract), kiddushin (sanctification/betrothal), and breaking of a glass."
+            },
+            {
+                question: "What two main things do Jewish life events like Brit Milah, Bar Mitzvah, and marriage strengthen?",
+                answer: "Jewish life events strengthen Jewish identity and connection to God's covenant."
+            },
+            {
+                question: "Explain how Brit Milah connects individuals to God's covenant.",
+                answer: "Brit Milah physically marks the male with the sign of the Abrahamic Covenant, directly linking him to the generations of the Jewish people and their unique relationship with God established through Abraham."
+            },
+            {
+                question: "What responsibility do boys gain after Bar Mitzvah, and what typically happens for the first time in synagogue?",
+                answer: "After Bar Mitzvah, boys become responsible for fulfilling the mitzvot. They typically lead a part of the synagogue service or read from the Torah for the first time."
+            },
+
+            // Section 22: Kashrut (Dietary Laws)
+            {
+                question: "What does 'kosher' mean, and what does 'treyfah' refer to regarding food?",
+                answer: "'Kosher' means 'fit' or 'proper' according to Jewish dietary laws, while 'treyfah' refers to food that is 'torn' or ritually unfit to eat, meaning it is non-kosher."
+            },
+            {
+                question: "Which biblical book outlines Jewish dietary laws, and what types of animals are considered kosher?",
+                answer: "The book of Leviticus (and Deuteronomy) outlines Jewish dietary laws. Animals considered kosher include those with split hooves and that chew their cud (e.g., cows, sheep), and fish with fins and scales."
+            },
+            {
+                question: "What specific commandment guides the Jewish practice of not mixing meat and dairy, and where is it found in the Bible?",
+                answer: "The commandment 'Do not boil a kid in its mother's milk' (Exodus 23:19, 34:26; Deuteronomy 14:21) guides the practice of not mixing meat and dairy."
+            },
+            {
+                question: "What are parev foods, and how can they be eaten within kosher guidelines?",
+                answer: "Parev foods are neutral foods (like fruits, vegetables, eggs, fish, grains) that contain neither meat nor dairy. They can be eaten with either meat or dairy meals."
+            },
+            {
+                question: "Name two elements typically included in a Jewish marriage ceremony.",
+                answer: "Two elements are the signing of the Ketubah (marriage contract) and the breaking of the glass."
+            },
+
+            // Section 23: Kashrut in Modern Society
+            {
+                question: "What are two challenges of keeping kosher in Britain today?",
+                answer: "Challenges include the limited availability of kosher products outside major Jewish communities and the difficulty of dining out in non-kosher restaurants."
+            },
+            {
+                question: "What are three benefits of keeping kosher in Britain for many Jews?",
+                answer: "Benefits include strengthening Jewish identity, fostering community, and providing a sense of spiritual discipline and connection to tradition."
+            },
+            {
+                question: "How does keeping kosher help Jews stay connected to their identity in the Diaspora?",
+                answer: "Keeping kosher is a daily practice that reinforces Jewish identity and distinctiveness, creating a tangible link to heritage, community, and the divine commandments, even when living outside Israel."
+            },
+            {
+                question: "How does the concept of parev foods simplify the challenges of keeping kosher?",
+                answer: "Parev foods simplify kosher keeping because they can be consumed with either meat or dairy meals, offering flexibility and expanding meal options without violating the separation of meat and dairy."
+            },
+            {
+                question: "Explain the reason behind the Jewish dietary law against mixing meat and dairy.",
+                answer: "The reason is based on the biblical commandment 'Do not boil a kid in its mother's milk,' interpreted by rabbinic law to forbid cooking or eating any meat and dairy products together, symbolizing a respect for life and preventing cruelty."
+            },
+
+            // Section 24: Synagogue Architecture & Function
+            {
+                question: "What is the aron hakodesh, what does it house, and in what direction does it face?",
+                answer: "The aron hakodesh (Holy Ark) is the most sacred part of the synagogue, housing the Torah scrolls. It faces towards Jerusalem."
+            },
+            {
+                question: "What is the bimah, and what is primarily read from it during services?",
+                answer: "The bimah is a raised platform or reading desk in the synagogue from which the Torah is read and prayers are led, enabling the congregation to hear and see clearly."
+            },
+            {
+                question: "What is the ner tamid, where does it burn, and what does it symbolise?",
+                answer: "The ner tamid (eternal light) is a lamp that burns continuously before the aron hakodesh. It symbolises God's eternal presence and recalls the menorah in the ancient Temple."
+            },
+            {
+                question: "What two things reflect the value placed on communal worship in synagogues, including the concept of a minyan?",
+                answer: "The central layout focusing on the bimah and ark, and the requirement of a minyan (a quorum of 10 adult Jews) for certain prayers, reflect the value placed on communal worship."
+            },
+            {
+                question: "What does 'treyfah' refer to in Jewish dietary law?",
+                answer: "'Treyfah' refers to any food that is not kosher, meaning it is forbidden to eat according to Jewish dietary laws (e.g., pork, shellfish, unslaughtered meat)."
+            },
+
+            // Section 25: Synagogue as Community Hub
+            {
+                question: "Beyond places of worship, what else do synagogues in Britain serve as?",
+                answer: "Beyond places of worship, synagogues in Britain often serve as vital community centres, providing educational, social, and welfare services."
+            },
+            {
+                question: "Name three activities or programmes commonly hosted by synagogues as community centres.",
+                answer: "Three activities include Hebrew schools, youth clubs, adult education classes, social events, and welfare support programs."
+            },
+            {
+                question: "How do these activities support Jewish life and identity, particularly in the context of the Diaspora?",
+                answer: "These activities create a strong sense of community, provide opportunities for learning and cultural preservation, and offer support networks, which are crucial for maintaining Jewish life and identity in diverse societies outside Israel."
+            },
+            {
+                question: "How does the concept of the minyan demonstrate the importance of community in Jewish worship?",
+                answer: "The requirement of a minyan (10 adult Jews) for certain key prayers emphasizes that communal prayer is highly valued and demonstrates that certain spiritual experiences are only fully realized through collective participation."
+            },
+            {
+                question: "What is the aron hakodesh, and what two things does it symbolise?",
+                answer: "The aron hakodesh (Holy Ark) symbolises the Ark of the Covenant from biblical times and represents God's presence and the centrality of the Torah."
+            },
+
+            // Section 26: Jewish Festivals - Rosh Hashanah & Yom Kippur
+            {
+                question: "What is Rosh Hashanah, and what two significant events does it mark?",
+                answer: "Rosh Hashanah is the Jewish New Year. It marks the anniversary of the creation of the world and the beginning of the Ten Days of Repentance."
+            },
+            {
+                question: "What instrument is sounded during Rosh Hashanah, and what symbolic foods are eaten?",
+                answer: "The shofar (ram's horn) is sounded. Symbolic foods like apples dipped in honey are eaten to express wishes for a sweet new year."
+            },
+            {
+                question: "What is Yom Kippur, and what is its primary focus?",
+                answer: "Yom Kippur is the Day of Atonement, the holiest day in the Jewish calendar. Its primary focus is on repentance, forgiveness, and reconciliation with God."
+            },
+            {
+                question: "How does Yom Kippur conclude the Ten Days of Repentance, and what is the significance of fasting on this day?",
+                answer: "Yom Kippur culminates the Ten Days of Repentance, serving as the final opportunity for atonement. Fasting from food and drink for 25 hours signifies spiritual purification, self-denial, and complete devotion to prayer and reflection."
+            },
+            {
+                question: "Name three activities or programmes commonly hosted by synagogues as community centres.",
+                answer: "Examples include Hebrew schools, youth groups, adult education classes, and social welfare programs (e.g., food banks)."
+            },
+
+            // Section 27: Jewish Festivals - Pesach & Sukkot
+            {
+                question: "What does Pesach celebrate, and which biblical book commands its observance?",
+                answer: "Pesach (Passover) celebrates the liberation of the Israelites from slavery in ancient Egypt. Its observance is commanded in the book of Exodus."
+            },
+            {
+                question: "What specific meal is observed during Pesach, and what unleavened bread is eaten?",
+                answer: "The Seder meal is observed, during which matzah (unleavened bread) is eaten to symbolise the hurried departure from Egypt, leaving no time for bread to rise."
+            },
+            {
+                question: "What is Sukkot, and what historical event does it commemorate?",
+                answer: "Sukkot is the Festival of Tabernacles (or Booths), commemorating the forty years the Israelites wandered in the desert after the Exodus, living in temporary shelters (sukkahs)."
+            },
+            {
+                question: "What do Jews build and dwell in during Sukkot, and what two items are waved for a specific purpose?",
+                answer: "Jews build and dwell in a sukkah (temporary booth) during Sukkot. The Lulav (palm frond, myrtle, willow) and Etrog (citron) are waved together as part of ritual prayers to express joy and thanksgiving for the harvest and God's bounty."
+            },
+            {
+                question: "What is Rosh Hashanah, and what instrument is sounded during its observance?",
+                answer: "Rosh Hashanah is the Jewish New Year, and the shofar (ram's horn) is sounded during its observance."
+            },
+
+            // Section 28: Jewish Festivals - Diversity of Practice
+            {
+                question: "What is the general difference in practice between Orthodox and Reform Jews regarding traditional rituals during festivals?",
+                answer: "Orthodox Jews generally adhere strictly to traditional rituals and interpretations of festival laws, while Reform Jews often adapt or re-interpret rituals to be more modern and personally meaningful."
+            },
+            {
+                question: "Give an example of Orthodox strict adherence during Yom Kippur.",
+                answer: "Orthodox Jews observe a complete 25-hour fast, refrain from all forms of work, and spend extensive time in synagogue prayer, adhering to all traditional prohibitions."
+            },
+            {
+                question: "How might Reform Jews adapt practices during festivals compared to Orthodox Jews?",
+                answer: "Reform Jews might observe shorter fasts, hold less traditional services, or focus more on the ethical and spiritual meanings of the festivals, adapting practices to modern life while retaining core values."
+            },
+            {
+                question: "How does this diversity in festival practice reflect the broader differences between Orthodox and Reform Judaism?",
+                answer: "This diversity reflects Orthodox Judaism's emphasis on halakha (Jewish law) as immutable and binding, versus Reform Judaism's emphasis on individual autonomy, ethical living, and evolving interpretations of tradition."
+            },
+            {
+                question: "What is Pesach, and what story is retold during its observance?",
+                answer: "Pesach (Passover) celebrates the liberation of the Israelites from slavery in Egypt. The story of the Exodus is retold during the Seder meal."
+            },
+
+            // Section 29: Revelation & Scripture (Catholicism)
+            {
+                question: "What do Catholics believe revelation is, and through whom did God especially make Himself known?",
+                answer: "Catholics believe revelation is God making Himself and His divine plan known to humanity. God especially made Himself known through Jesus Christ, the Incarnate Son."
+            },
+            {
+                question: "What do Catholics believe about the Bible's inspiration, and who guided its human authors?",
+                answer: "Catholics believe the Bible is the inspired Word of God. The Holy Spirit guided the human authors to write all that God intended and no more, making it without error in matters of faith and morals."
+            },
+            {
+                question: "What are the two main parts that make up Scripture in Catholic belief, and what distinguishes them?",
+                answer: "The two main parts are the Old Testament (prepares for Christ, tells of God's covenant with Israel) and the New Testament (reveals Christ's life, teachings, and the new covenant)."
+            },
+            {
+                question: "How does the concept of revelation in Catholicism relate to the Jewish belief that God is a Law-Giver?",
+                answer: "Both involve God communicating His will to humanity. In Judaism, it's primarily through the Torah (laws). In Catholicism, it's a broader unfolding of God's self-revelation, culminating in Jesus Christ, who reveals both God's nature and His moral will."
+            },
+            {
+                question: "What is Yom Kippur, and what is its focus?",
+                answer: "Yom Kippur is the Day of Atonement, focused on repentance, prayer, and seeking forgiveness for sins committed against God."
+            },
+
+            // Section 30: Literary Forms in the Bible & Interpretation Sources
+            {
+                question: "What do Catholics recognise in the Bible regarding its literary forms, and name four examples?",
+                answer: "Catholics recognise that the Bible contains various literary forms to convey its message. Examples include history, prophecy, poetry, parables, letters, and wisdom literature."
+            },
+            {
+                question: "How does recognising these literary forms help in understanding the Bible's meaning and interpreting Scripture as God's revelation?",
+                answer: "Recognising literary forms helps understand the author's intent and context, preventing misinterpretation. It ensures the text is read accurately to grasp the spiritual, moral, and historical truths God reveals."
+            },
+            {
+                question: "What two primary sources do the Catholic Church use to understand God’s revelation?",
+                answer: "The Catholic Church uses Sacred Scripture (the Bible) and Sacred Tradition (the living transmission of the Gospel message) as primary sources for understanding God's revelation."
+            },
+            {
+                question: "Who interprets Scripture and Tradition in the Catholic Church, and what is the relationship between these three elements?",
+                answer: "The Magisterium (the teaching authority of the Church, i.e., the Pope and bishops in communion with him) interprets Scripture and Tradition. They are interdependent, forming a single sacred deposit of the Word of God, all guided by the Holy Spirit."
+            },
+            {
+                question: "How does the inspiration of the Holy Spirit ensure the Bible communicates what God wanted?",
+                answer: "The Holy Spirit's inspiration means that the human authors wrote truthfully and faithfully, without error, all that God intended to reveal for the sake of our salvation, ensuring the Bible's divine authority."
+            },
+
+            // Section 31: Catholic Interpretation of Genesis
+            {
+                question: "How do Catholics interpret Genesis (as symbolic/theological truth or scientific fact)?",
+                answer: "Catholics interpret Genesis primarily as symbolic and theological truth, conveying profound truths about God, creation, and humanity's relationship with God, rather than a literal scientific account."
+            },
+            {
+                question: "What three things do Catholics consider when interpreting Genesis?",
+                answer: "Catholics consider the literary forms used, the historical context of the biblical authors, and the overall theological message of the Bible when interpreting Genesis."
+            },
+            {
+                question: "Why do Catholics interpret Genesis as myth and symbolic stories rather than literal scientific accounts?",
+                answer: "They interpret it this way because the primary purpose of Genesis is to convey religious truths about creation and humanity's relationship with God, not to provide a scientific textbook. The narrative uses symbolic language common in ancient literature."
+            },
+            {
+                question: "How does this interpretation support the idea that Genesis reveals religious truths, even if not historical?",
+                answer: "By focusing on the symbolic and theological meaning, Catholics affirm that Genesis reveals essential religious truths about God as Creator, humanity's dignity (Imago Dei), the origin of evil, and the promise of salvation, regardless of its historical literalness."
+            },
+            {
+                question: "What are the three sources the Catholic Church uses to understand God's revelation?",
+                answer: "The three sources are Sacred Scripture (Bible), Sacred Tradition, and the Magisterium."
+            },
+
+            // Section 32: Other Views on Genesis (Christian & Jewish)
+            {
+                question: "What do some Christians, like fundamentalists, believe about Genesis' authority and the world's creation?",
+                answer: "Fundamentalist Christians believe Genesis is literally and historically true, asserting that the world was created in six literal 24-hour days, as described in the Bible."
+            },
+            {
+                question: "How do liberal Christians view Genesis, and what do they believe it expresses rather than historical accuracy?",
+                answer: "Liberal Christians view Genesis as a metaphorical or symbolic narrative, believing it expresses profound theological truths about God and creation, rather than being a historically accurate account of events."
+            },
+            {
+                question: "How do Orthodox Jews generally interpret Genesis, and how do many view its language?",
+                answer: "Orthodox Jews generally accept Genesis as a divine, foundational text. Many view its language as precise but can interpret the 'days' of creation symbolically, or as very long periods, without conflicting with scientific findings, while still affirming God as Creator."
+            },
+            {
+                question: "How does the literary form of Genesis influence how people understand its truth, conveying scientific, moral, and spiritual truths?",
+                answer: "The literary form (e.g., narrative, poetry) guides interpretation. If seen as symbolic, it conveys moral and spiritual truths (e.g., human responsibility), while a literal interpretation might focus on historical and scientific claims."
+            },
+            {
+                question: "What is the role of the Magisterium in the Catholic Church regarding interpretation of revelation?",
+                answer: "The Magisterium is the authoritative teaching office of the Church, guided by the Holy Spirit, responsible for authentically interpreting and preserving Sacred Scripture and Sacred Tradition for all generations."
+            },
+
+            // Section 33: Nature of the Church (Marks: One, Holy, Catholic, Apostolic)
+            {
+                question: "What is the Church defined as in Catholicism, and what is its primary characteristic as 'one'?",
+                answer: "The Church is defined as the worldwide community of believers united in Christ. Its primary characteristic as 'one' means it has one source (the Holy Trinity), one founder (Jesus Christ), and one Holy Spirit, leading to unity in faith and worship."
+            },
+            {
+                question: "Why is the Church considered ‘Holy,’ and what makes the Church itself holy?",
+                answer: "The Church is considered 'Holy' because its founder (Jesus Christ) is holy, and it is guided by the Holy Spirit. The Church itself is holy through its sacraments, moral teachings, and the holiness of its members."
+            },
+            {
+                question: "What does it mean for the Church to be 'catholic/universal,' and to whom is it open?",
+                answer: "To be 'catholic/universal' means the Church is for all people in all places and times. It is open to all who believe in Christ and desire to be part of God's salvific plan, embracing all cultures and nations."
+            },
+            {
+                question: "Why is the Church considered apostolic, and how is the authority given to Peter passed on?",
+                answer: "The Church is apostolic because it is founded on the apostles. The authority given to Peter (and the other apostles) is passed on through apostolic succession, primarily through the ordination of bishops, ensuring continuity of teaching and governance."
+            },
+            {
+                question: "How do Catholics interpret Genesis, considering its nature as myth or symbolic story?",
+                answer: "Catholics interpret Genesis as primarily conveying symbolic and theological truths about God, creation, and humanity's relationship with God, rather than a literal scientific account."
+            },
+
+            // Section 34: Magisterium & Vatican II (Overview)
+            {
+                question: "What is the Magisterium in Catholicism, and how does it relate to the Bible?",
+                answer: "The Magisterium is the teaching authority of the Catholic Church (Pope and bishops in communion with him). It serves to authentically interpret the Bible and Tradition, ensuring the faithful understanding of God's revelation."
+            },
+            {
+                question: "What does the Catechism of the Catholic Church teach about the purpose of the Magisterium?",
+                answer: "The Catechism teaches that the purpose of the Magisterium is to preserve the People of God from error and guarantee them the objective possibility of professing the true faith, exercising its authority in the name of Jesus Christ."
+            },
+            {
+                question: "When was the Second Vatican Council held, and what was its overall goal?",
+                answer: "The Second Vatican Council (Vatican II) was held from 1962 to 1965. Its overall goal was 'aggiornamento'—updating and renewing the Church to better engage with and respond to the challenges of the modern world, while remaining faithful to its traditions."
+            },
+            {
+                question: "How does the Magisterium, in its various forms, ensure the Church remains 'one' and 'holy' and upholds its apostolic nature?",
+                answer: "The Magisterium maintains unity (one) by providing consistent teaching, ensures holiness through its guidance on faith and morals, and upholds apostolicity by preserving the original teachings of the apostles through succession."
+            },
+            {
+                question: "What are some key differences in how fundamentalist and liberal Christians interpret Genesis?",
+                answer: "Fundamentalists interpret Genesis literally as historical and scientific fact, while liberal Christians interpret it metaphorically or symbolically for its theological truths, not historical accuracy."
+            },
+
+            // Section 35: Vatican II Documents (Lumen Gentium, Sacrosanctum Concilium)
+            {
+                question: "What did Lumen Gentium teach about the Church, and what did it emphasise regarding the responsibility of all Catholics?",
+                answer: "Lumen Gentium taught that the Church is the 'People of God,' emphasizing that all Catholics, not just the clergy, share in Christ's priestly, prophetic, and kingly office, and have a universal call to holiness and mission."
+            },
+            {
+                question: "What did Sacrosanctum Concilium reform, and what two changes did it allow regarding Mass?",
+                answer: "Sacrosanctum Concilium reformed the liturgy of the Mass. It allowed for the use of vernacular languages (local languages) instead of exclusively Latin, and encouraged greater active participation by the laity in worship."
+            },
+            {
+                question: "How did Lumen Gentium shift the understanding of the Church's structure and promote the idea of the Church as a 'worldwide community of believers'?",
+                answer: "It shifted from a hierarchical, 'top-down' view to a more communal, 'bottom-up' understanding, emphasizing the shared dignity and mission of all baptized members, thus fostering the image of a unified global community of believers."
+            },
+            {
+                question: "How did the liturgical reforms of Sacrosanctum Concilium impact active participation by the laity?",
+                answer: "The reforms encouraged the laity to actively participate in the Mass through responses, singing, and understanding the liturgy in their own language, making the Mass more engaging and accessible for all."
+            },
+            {
+                question: "What are the different forms of the Magisterium?",
+                answer: "The different forms include the Pope (Pontifical Magisterium), Ecumenical Councils (e.g., Vatican II), and the ordinary and universal Magisterium (bishops in communion with the Pope teaching consistently)."
+            },
+
+            // Section 36: Vatican II Documents (Dei Verbum, Gaudium et Spes)
+            {
+                question: "What did Dei Verbum explain about divine revelation, and what two sources did it identify?",
+                answer: "Dei Verbum explained that divine revelation is God's self-communication. It identified Sacred Scripture and Sacred Tradition as the two interdependent sources through which revelation is transmitted."
+            },
+            {
+                question: "What did Dei Verbum encourage all Catholics to do regarding Scripture?",
+                answer: "Dei Verbum encouraged all Catholics to have 'easy access' to Sacred Scripture, urging them to read and study the Bible more frequently and deeply, understanding it as the Word of God."
+            },
+            {
+                question: "What did Gaudium et Spes call the Church to do, and name three issues it called the Church to engage with?",
+                answer: "Gaudium et Spes called the Church to enter into dialogue with the modern world. It urged engagement with issues like peace and war, social justice, and economic inequality, showing pastoral concern for humanity."
+            },
+            {
+                question: "How do the teachings of Vatican II documents, such as Gaudium et Spes, contribute to the ongoing renewal and updating of the Church and demonstrate its 'catholic/universal' nature?",
+                answer: "They emphasize the Church's mission to engage with contemporary issues globally, demonstrating its universal concern for humanity's well-being and its adaptability to changing times while remaining true to its core mission."
+            },
+            {
+                question: "What did Lumen Gentium teach about the Church and the responsibility of Catholics?",
+                answer: "Lumen Gentium taught that the Church is the 'People of God,' emphasizing that all Catholics are called to holiness and active participation in the Church's mission, not just the clergy."
+            },
+
+            // Section 37: Genesis 1 & 2 (Contrasting Accounts)
+            {
+                question: "What does Genesis 1 explain about creation, including its timeframe and God's resting on the seventh day?",
+                answer: "Genesis 1 explains creation as occurring in six distinct days (often interpreted symbolically), moving from chaos to order, with God resting on the seventh day, establishing the pattern for Shabbat/Sabbath."
+            },
+            {
+                question: "How does Genesis 2 focus on creation, highlighting a special closeness and relationship between God and humans?",
+                answer: "Genesis 2 focuses on God intimately forming Adam from dust and breathing life into him, and then creating Eve from Adam's rib, highlighting God's personal involvement and the intimate relationship with humanity."
+            },
+            {
+                question: "Compare the emphasis on timeframe in Genesis 1 versus Genesis 2 regarding creation.",
+                answer: "Genesis 1 uses a sequential, six-day structure emphasizing cosmic order and completion. Genesis 2 does not provide a specific timeframe, focusing more on the details of human creation and their relationship with God and creation."
+            },
+            {
+                question: "How does Genesis 2 present a different emphasis compared to Genesis 1 regarding creation, and what does it suggest about God's work without a set timeframe?",
+                answer: "Genesis 2 emphasizes relationship and detail over a chronological sequence. The absence of a set timeframe suggests a focus on the *qualitative* nature of creation and God's ongoing, purposeful work, rather than a rigid timeline."
+            },
+            {
+                question: "What did Gaudium et Spes call the Church to engage with in the modern world?",
+                answer: "Gaudium et Spes called the Church to engage with crucial issues of the modern world, such as social justice, poverty, war, and the promotion of human dignity, fostering dialogue and collaboration."
+            },
+
+            // Section 38: God's Attributes in Genesis & Catholic Interpretation
+            {
+                question: "What central truth do both Genesis creation stories reveal about God, and name four of His attributes?",
+                answer: "Both reveal that God is the sole Creator of all that exists. Attributes include omnipotent (all-powerful), benevolent (all-good), transcendent (beyond creation), and immanent (involved in creation)."
+            },
+            {
+                question: "What does it mean for God to be transcendent and immanent, as revealed in Genesis?",
+                answer: "Transcendent means God is distinct from and beyond His creation, while immanent means He is intimately involved within creation and cares for it (e.g., walking in the Garden, forming Adam)."
+            },
+            {
+                question: "How do Catholics interpret Genesis, considering its liberal nature, viewing it as myth/symbolic stories, and believing it reveals religious truths?",
+                answer: "Catholics interpret Genesis liberally, accepting it as symbolic narratives or myth that convey profound religious truths about God as Creator, human dignity, and the origin of evil, rather than literal historical or scientific facts."
+            },
+            {
+                question: "What three things do Catholics consider when interpreting Genesis?",
+                answer: "Catholics consider the literary forms used (e.g., myth, poetry), the historical and cultural context of the original audience, and the overall theological message (God's plan for salvation) when interpreting Genesis."
+            },
+            {
+                question: "What does Genesis 1 teach about the nature of creation, and what was God's assessment of everything He made?",
+                answer: "Genesis 1 teaches that creation is ordered, purposeful, and good. God consistently assessed everything He made as 'good,' and humanity as 'very good.'"
+            },
+
+            // Section 39: Creation Ex Nihilo & St. Augustine
+            {
+                question: "What do Catholics believe about how God created the universe, and what does 'ex nihilo' mean?",
+                answer: "Catholics believe God created the universe 'ex nihilo,' which means 'from nothing.' God did not use pre-existing material but brought everything into being by His will."
+            },
+            {
+                question: "What divine attribute does creation ex nihilo show about God?",
+                answer: "Creation ex nihilo demonstrates God's absolute omnipotence (all-powerfulness), as He can create existence from non-existence, and His ultimate sovereignty over all things."
+            },
+            {
+                question: "What does St Augustine teach in Confessions XII, 7 about creation, and from what did God not create?",
+                answer: "St Augustine teaches that God did not create from pre-existing matter or from part of Himself, but entirely from nothing, emphasizing God's complete creative power and self-sufficiency."
+            },
+            {
+                question: "How does creation ex nihilo mean that all things depend on God for their existence, and how does it explain God's relationship with time and space?",
+                answer: "All things depend entirely on God because He created them from nothing. It means God is not bound by time and space; He created them, so He exists outside of them, being eternal and infinite."
+            },
+            {
+                question: "Name two attributes of God revealed in both Genesis creation stories.",
+                answer: "Two attributes are omnipotent (all-powerful) and benevolent (all-good)."
+            },
+
+            // Section 40: Science and Faith (Catholic Harmony)
+            {
+                question: "What two things do Catholics accept regarding creation, reconciling faith with scientific theories?",
+                answer: "Catholics accept both the truth of divine revelation (faith) and the findings of scientific inquiry (reason) regarding creation, viewing them as complementary paths to understanding God's work."
+            },
+            {
+                question: "What does science explain about the universe's beginning, according to Catholic belief, and what does faith explain?",
+                answer: "According to Catholic belief, science explains *how* the universe began and developed (e.g., the Big Bang), while faith explains *why* it began and *who* initiated it (God's purposeful act of creation)."
+            },
+            {
+                question: "What do Catholics believe about the Big Bang theory in relation to their faith, and what idea does it support from a Catholic perspective?",
+                answer: "Catholics believe the Big Bang theory is compatible with their faith. It supports the idea of a singular, distinct beginning for the universe, which aligns with God's creative act, rather than an eternal, uncreated universe."
+            },
+            {
+                question: "How does this acceptance show compatibility between faith and reason in Catholic thought, differing from those who see conflict?",
+                answer: "It demonstrates that faith and reason are not in conflict but can mutually enrich understanding. Science describes the 'how,' while faith reveals the 'why,' showing God as the ultimate cause and sustainer of creation, rather than a 'god of the gaps.'"
+            },
+            {
+                question: "What does 'ex nihilo' mean, and what divine attribute does it show about God?",
+                answer: "'Ex nihilo' means 'from nothing,' showing God's absolute omnipotence as He created the universe without pre-existing matter."
+            },
+
+            // Section 41: Evolution & Catholic Reconciliation
+            {
+                question: "What does Charles Darwin’s theory of evolution explain, and what mechanism does it propose for life's development?",
+                answer: "Charles Darwin’s theory of evolution explains the diversity and development of life on Earth. It proposes that species evolve over time through a process of natural selection."
+            },
+            {
+                question: "What did Pope John Paul II teach about evolution, and what aspect of human creation did he clarify is directly created by God?",
+                answer: "Pope John Paul II taught that evolution is 'more than a hypothesis' and compatible with faith, but he clarified that the human soul is directly created by God, not a product of biological evolution."
+            },
+            {
+                question: "How does Pope John Paul II's teaching show reconciliation between evolution and Catholic belief?",
+                answer: "His teaching reconciles them by accepting evolution as the mechanism for the physical development of the human body while maintaining that the spiritual, immortal soul is uniquely and directly created by God, thus preserving human dignity."
+            },
+            {
+                question: "How does Darwin's theory present a challenge to literal interpretations of Genesis, and what aspect does it not refer to?",
+                answer: "Darwin's theory challenges literal six-day creation by suggesting long periods of development. It does not refer to a divine creator or ultimate purpose, focusing only on the biological mechanisms of change."
+            },
+            {
+                question: "What do Catholics accept regarding creation, and what do science and faith explain about the universe's beginning?",
+                answer: "Catholics accept both science and faith. Science explains *how* the universe began (e.g., Big Bang), while faith explains *why* and *who* initiated it (God as Creator)."
+            },
+
+            // Section 42: Richard Dawkins' Challenge to Religion
+            {
+                question: "What does Richard Dawkins reject regarding explanations of life, and what does he argue alone explains life?",
+                answer: "Richard Dawkins rejects religious explanations for life's complexity. He argues that natural selection and evolution alone fully explain the diversity and apparent design of life, without any need for a divine creator."
+            },
+            {
+                question: "How does Dawkins' view on the soul contrast with Catholic belief?",
+                answer: "Dawkins views the soul as a non-existent or purely biological phenomenon, whereas Catholic belief holds that the human soul is an immortal, spiritual principle directly created by God, distinguishing humans from other creatures."
+            },
+            {
+                question: "How do Catholics see evolution and creation in relation to God's purpose, contrasting with Dawkins?",
+                answer: "Catholics see evolution as part of God's ongoing creative process and purpose, a tool through which He brings about His plan. Dawkins sees evolution as a random, unguided process with no divine purpose or involvement."
+            },
+            {
+                question: "How does Dawkins' critique challenge the compatibility of science and faith, as viewed by the Catholic Church?",
+                answer: "Dawkins challenges the compatibility by presenting science and religion as mutually exclusive, arguing that scientific explanations eliminate the need for God, directly opposing the Catholic view that science describes 'how' and faith reveals 'why.'"
+            },
+            {
+                question: "What did Pope John Paul II teach about evolution, specifically regarding human creation?",
+                answer: "Pope John Paul II taught that the theory of evolution for the human body is compatible with Catholic faith, but the human soul is directly created by God."
+            },
+
+            // Section 43: Sanctity of Human Life (Catholic Teaching)
+            {
+                question: "Why do Catholics believe all human life is sacred, and what two things does it reflect because it is created by God?",
+                answer: "Catholics believe all human life is sacred because it is created by God. It reflects God’s own image and likeness (imago Dei) and is therefore intrinsically valuable and has inherent dignity."
+            },
+            {
+                question: "What does 'imago Dei' mean in this context of human sacredness?",
+                answer: "'Imago Dei' means 'image of God.' In this context, it signifies that humans possess unique spiritual capacities (reason, will, conscience) that reflect God's own nature, giving them inherent dignity and worth."
+            },
+            {
+                question: "What did St Catherine of Siena teach about each human being, and what two qualities does every person have?",
+                answer: "St Catherine of Siena taught that each human being is created with infinite value and dignity, possessing reason and free will, which allows them to know and love God."
+            },
+            {
+                question: "According to St Catherine’s Dialogue, what are humans like, and what does this metaphor show about human worth?",
+                answer: "According to her Dialogue, humans are like 'mirrors' reflecting God’s glory and beauty. This metaphor shows that human worth is derived from their capacity to reflect the divine, giving them immense and unparalleled value."
+            },
+            {
+                question: "What is Richard Dawkins' view on religious explanations and the soul?",
+                answer: "Richard Dawkins rejects religious explanations for life, arguing evolution alone suffices, and views the soul as a non-existent or purely biological concept, contrary to religious beliefs."
+            },
+
+            // Section 44: Sanctity of Life & Protection (Abortion & Euthanasia)
+            {
+                question: "What does the belief in the sanctity of life mean regarding all stages of life, from conception to natural death?",
+                answer: "It means that all human life, from the moment of conception to natural death, is sacred, inviolable, and deserves protection and respect, regardless of condition or capability."
+            },
+            {
+                question: "Name the two stages of life that must be protected and respected according to Catholic teaching.",
+                answer: "The two stages of life that must be protected and respected are at its very beginning (conception/embryonic stage) and at its very end (terminal illness/old age)."
+            },
+            {
+                question: "How does this belief relate to Catholic opposition to abortion and euthanasia?",
+                answer: "This belief forms the core of Catholic opposition to abortion (ending life at its beginning) and euthanasia/assisted suicide (ending life at its end), as both are seen as direct attacks on the sacredness of human life."
+            },
+            {
+                question: "How does the principle of sanctity of life apply to palliative care and end-of-life decisions?",
+                answer: "It encourages compassionate palliative care to relieve suffering, but opposes actions that intentionally end life (euthanasia/assisted suicide), affirming that death should be natural and dignified, with respect for the person until the very end."
+            },
+            {
+                question: "What does 'imago Dei' mean, and how does it influence Catholic teaching on moral decisions?",
+                answer: "'Imago Dei' (image of God) means humans have inherent dignity. This influences moral decisions by upholding that all human life is sacred and worthy of protection, thus opposing abortion and euthanasia."
+            },
+
+            // Section 45: Abortion (Varying Christian & Humanist Views)
+            {
+                question: "Why do some fundamentalist Christians reject abortion, and when do they believe life begins?",
+                answer: "Some fundamentalist Christians reject abortion because they believe life begins at conception, seeing it as the intentional taking of a human life, which they consider murder based on literal biblical interpretation."
+            },
+            {
+                question: "When might other Christian denominations permit abortion, and what approach do they show?",
+                answer: "Other Christian denominations might permit abortion in extreme circumstances, such as rape, incest, or when the mother's life is at risk, showing a more nuanced, 'situational ethics' or 'least of two evils' approach."
+            },
+            {
+                question: "What do humanists typically support regarding abortion, and what two things do they prioritise?",
+                answer: "Humanists typically support a woman’s right to choose abortion. They prioritise individual autonomy (the right to make one's own decisions) and quality of life over the concept of sanctity of life."
+            },
+            {
+                question: "How do the humanist and other Christian views on abortion differ from the Catholic Church's absolute opposition?",
+                answer: "The Catholic Church's opposition is absolute based on sanctity of life from conception. Other Christians and humanists may introduce conditions (mother's life, rape) or prioritize autonomy/quality of life, allowing for exceptions."
+            },
+            {
+                question: "What does the belief in the sanctity of life mean regarding the protection of all stages of life?",
+                answer: "It means that human life is sacred and inviolable from conception to natural death, requiring respect and protection at every stage."
+            },
+
+            // Section 46: Peter Singer's Criticism & Catholic Response
+            {
+                question: "What does Peter Singer criticise regarding life, and what does he call the religious view of the sanctity of life?",
+                answer: "Peter Singer criticises the traditional religious view of the sanctity of life, which he calls 'speciesism' – a prejudice or bias in favour of members of one's own species over members of other species."
+            },
+            {
+                question: "What is Singer's argument against the religious view of the sanctity of life, particularly in contrast to quality of life?",
+                answer: "Singer argues that the sanctity of life doctrine is outdated and that quality of life (e.g., consciousness, ability to suffer) should be the primary ethical consideration. He contends that some non-human animals have a higher 'quality of life' than severely disabled humans."
+            },
+            {
+                question: "How does the Catholic Church respond to Peter Singer's criticism, emphasising inherent human qualities that surpass other life forms?",
+                answer: "The Catholic Church responds by asserting that all human life, regardless of its 'quality' or developmental stage, possesses inherent dignity and worth due to 'imago Dei' (being made in God's image), giving humans a unique moral status that transcends other life forms."
+            },
+            {
+                question: "How does the concept of 'imago Dei' provide a basis for the Catholic Church's response to Singer's arguments?",
+                answer: "Imago Dei means humans are uniquely created in God's image with a spiritual soul, reason, and free will, giving them an inherent, non-negotiable dignity and moral value that is not dependent on perceived quality of life or cognitive abilities, directly refuting Singer's utilitarian criteria."
+            },
+            {
+                question: "What do humanists typically support regarding abortion, and what do they prioritize?",
+                answer: "Humanists typically support a woman's right to choose, prioritizing individual autonomy and quality of life."
+            },
+
+            // Section 47: The Trinity (Catholic Doctrine)
+            {
+                question: "What do Catholics believe about God's nature, and how is the belief in the Trinity expressed?",
+                answer: "Catholics believe in one God who exists as a Trinity of three distinct Persons: Father, Son, and Holy Spirit. This belief is expressed as 'one God in three Persons.'"
+            },
+            {
+                question: "Name the three persons of the Trinity.",
+                answer: "The three persons of the Trinity are God the Father, God the Son (Jesus Christ), and God the Holy Spirit."
+            },
+            {
+                question: "What biblical event supports the Trinity, and what roles do the Father, Son, and Spirit play during Jesus' baptism in Matthew 3:16–17?",
+                answer: "Jesus' baptism (Matthew 3:16–17) supports the Trinity: The Son is baptized, the Father's voice speaks from heaven, and the Holy Spirit descends like a dove, showing all three Persons present and distinct."
+            },
+            {
+                question: "What key teaching about Jesus does the Nicene Creed affirm, clarifying His nature as fully God and fully human?",
+                answer: "The Nicene Creed affirms that Jesus is 'true God from true God' (fully divine) and was 'incarnate of the Virgin Mary and became man' (fully human), affirming His two natures without confusion."
+            },
+            {
+                question: "How does the Catholic Church respond to Peter Singer's criticism of the sanctity of life?",
+                answer: "The Catholic Church asserts that all human life has inherent dignity due to being created in God's image ('imago Dei'), regardless of perceived 'quality of life,' thus refuting Singer's utilitarian arguments."
+            },
+
+            // Section 48: St. Augustine's Trinity Metaphor & Trinity's Influence
+            {
+                question: "What metaphor did St Augustine use to describe the Trinity, and how did he identify its components (Lover, Beloved, Love)?",
+                answer: "St Augustine used the metaphor of 'love.' He identified the Father as the Lover, the Son as the Beloved, and the Holy Spirit as the Love between them, illustrating the relational dynamic within God."
+            },
+            {
+                question: "What does this metaphor show about the Trinity, particularly God's nature as relational and self-giving?",
+                answer: "This metaphor shows that God is not a solitary being but an eternal communion of Persons, constantly in a dynamic, self-giving relationship of love. It highlights God's essence as love itself."
+            },
+            {
+                question: "How does the doctrine of the Trinity influence Catholic worship, prayer, and moral teachings?",
+                answer: "It shapes worship (praying to the Father through the Son in the Spirit), prayer (a Trinitarian encounter), and moral teachings (calling Catholics to live in communion and self-giving love, reflecting the divine community)."
+            },
+            {
+                question: "How does the Trinity's relational nature impact Catholic understanding of community and the Church?",
+                answer: "The Trinity models perfect communion, inspiring the Church to strive for unity, mutual love, and interdependence among its members, seeing the Church as the 'People of God' reflecting the divine community."
+            },
+            {
+                question: "What biblical passage supports the Trinity by showing the Father, Son, and Holy Spirit at Jesus' baptism?",
+                answer: "Matthew 3:16–17 at Jesus' baptism."
+            },
+
+            // Section 49: Jesus as Incarnate Son of God
+            {
+                question: "What do Catholics believe Jesus is, and what two natures does He possess according to Catholic belief?",
+                answer: "Catholics believe Jesus is the Incarnate Son of God, meaning He is both fully divine (God) and fully human (man) in one Person."
+            },
+            {
+                question: "What does John 1:14 state about 'The Word,' and how do Catholics understand 'The Word became flesh and dwelt among us'?",
+                answer: "John 1:14 states, 'The Word became flesh and made his dwelling among us.' Catholics understand 'The Word' as Jesus Christ, who took on human nature, becoming truly human without ceasing to be God."
+            },
+            {
+                question: "What does Philippians 2:5–11 (the kenosis hymn) teach about Jesus, showing His humility and acceptance of human form?",
+                answer: "The kenosis hymn teaches that Jesus, though divine, 'emptied himself' (kenosis) by taking the form of a servant, becoming obedient to death on a cross, demonstrating profound humility and acceptance of human limitations for our salvation."
+            },
+            {
+                question: "How does the Incarnation demonstrate God's immanence and closeness to humanity?",
+                answer: "The Incarnation demonstrates God's immanence by showing He is not distant but intimately involved in human history, to the point of becoming human Himself. This reveals His profound love and desire for closeness with humanity."
+            },
+            {
+                question: "What metaphor did St Augustine use to describe the Trinity?",
+                answer: "St Augustine used the metaphor of 'love' to describe the Trinity: the Lover (Father), the Beloved (Son), and the Love between them (Holy Spirit)."
+            },
+
+            // Section 50: Incarnation & Salvation (Salvifici Doloris)
+            {
+                question: "Why is the Incarnation essential to Catholic beliefs about salvation?",
+                answer: "The Incarnation is essential because only God (who is sinless) could overcome sin and death, and only a human (who could represent humanity) could offer a perfect sacrifice. Jesus, being both, bridges the gap between God and humanity, enabling salvation."
+            },
+            {
+                question: "What problem could only God overcome, and what problem could only a human represent, making Jesus' dual nature crucial for salvation?",
+                answer: "Only God could overcome the infinite offense of sin against Him. Only a human could truly represent humanity and offer a sacrifice on its behalf. Jesus' dual nature as God and Man is crucial to address both aspects."
+            },
+            {
+                question: "In what document does Pope John Paul II explain that Jesus’ suffering gives meaning to human suffering?",
+                answer: "Pope John Paul II explains this in his Apostolic Letter, *Salvifici Doloris* (On the Christian Meaning of Human Suffering)."
+            },
+            {
+                question: "How did God respond to human suffering according to Salvifici Doloris, and what did He do by entering into suffering?",
+                answer: "According to *Salvifici Doloris*, God responded to human suffering not by removing it, but by entering into it through the Incarnation and the Passion of Christ. By doing so, He transforms suffering into a path to salvation and gives it redemptive meaning."
+            },
+            {
+                question: "What two natures does Jesus possess as the Incarnate Son of God, and what does John 1:14 state about Him?",
+                answer: "Jesus possesses both fully divine and fully human natures. John 1:14 states, 'The Word became flesh and made his dwelling among us,' signifying His Incarnation."
+            },
+
+            // Section 51: Art & Symbolism (Tree of Life Apse Mosaic)
+            {
+                question: "What does the Tree of Life Apse mosaic in San Clemente use to express key beliefs, and what two things does it express beliefs about?",
+                answer: "The mosaic uses rich Christian symbolism to express key beliefs about the Incarnation (Christ's suffering and new life) and salvation (redemption through the cross)."
+            },
+            {
+                question: "How is the cross depicted in the mosaic, and what does the cross as the Tree of Life symbolise?",
+                answer: "The cross is depicted prominently, often as a lush, leafy tree. It symbolises Christ's crucifixion as the source of new life and the restoration of humanity's access to eternal life, echoing the Tree of Life in Eden."
+            },
+            {
+                question: "What do the Alpha and Omega symbols represent, and what does the Chi-Rho symbolise in the mosaic?",
+                answer: "The Alpha ($\Alpha$) and Omega ($\Omega$) (first and last letters of the Greek alphabet) represent Christ as the beginning and end of all things. The Chi-Rho ($\Chi\Rho$) is an early Christogram, representing Jesus Christ."
+            },
+            {
+                question: "What does the lamb symbolise in the mosaic, and what does the dove represent?",
+                answer: "The lamb symbolises Christ as the Lamb of God, representing His sacrifice for humanity. The dove represents the Holy Spirit, often seen descending from above, symbolising divine inspiration and grace."
+            },
+            {
+                question: "Why is the Incarnation essential to Catholic beliefs about salvation?",
+                answer: "The Incarnation is essential because only through Jesus, who is both God and man, could humanity be reconciled with God and offered salvation from sin and death."
+            },
+
+            // Section 52: God's Goodness & Challenges (Mackie, Hume)
+            {
+                question: "Where is God’s goodness evident according to Catholic belief, and how do Catholics experience the numinous in creation?",
+                answer: "God's goodness is evident in the beauty, order, and complexity of creation itself. Catholics experience the numinous (a sense of awe, mystery, and divine presence) through contemplating the natural world."
+            },
+            {
+                question: "How is God’s goodness seen through his immanence, and how is it demonstrated in Scripture?",
+                answer: "God's goodness is seen through His immanence (closeness and involvement) in creation, caring for humanity and all living things. In Scripture, it's demonstrated through His loving acts, covenants, and ultimate sacrifice through Christ."
+            },
+            {
+                question: "What are J.L. Mackie’s and David Hume’s challenges to God’s goodness, particularly concerning the existence of evil and suffering?",
+                answer: "Mackie's 'inconsistent triad' argues that an omnipotent, omnibenevolent God cannot coexist with evil. Hume questions why an all-good, all-powerful God allows such extensive suffering, suggesting God is either not all-powerful or not all-good."
+            },
+            {
+                question: "What arguments exist for and against goodness in the world as evidence for God’s existence?",
+                answer: "For: The existence of moral goodness, love, beauty, and order suggests a good, intelligent creator. Against: The presence of evil, suffering, and apparent randomness in the world challenges the idea of an all-good, all-powerful God."
+            },
+            {
+                question: "Name two symbols from the Tree of Life Apse mosaic and explain their meaning.",
+                answer: "Alpha and Omega represent Christ as the beginning and end of all things. The Lamb symbolises Christ's sacrifice. The Chi-Rho represents Jesus Christ. The Dove represents the Holy Spirit."
+            },
+
+            // Section 53: Prayer (Definition, Forms, Lord's Prayer)
+            {
+                question: "How is prayer defined by the Catholic Church, and what two kinds of acts is it considered?",
+                answer: "Prayer is defined as 'raising one's mind and heart to God' or a 'dialogue with God.' It is considered both a personal act and a communal act (liturgical)."
+            },
+            {
+                question: "What is the purpose of prayer, and how does it highlight the personal and communicative aspect?",
+                answer: "The purpose of prayer is to give God praise, thanks, express sorrow, and make petitions. It highlights a personal and communicative aspect by fostering an intimate relationship and ongoing dialogue with God."
+            },
+            {
+                question: "What do formulaic prayers provide and express, and what is an example of such a prayer?",
+                answer: "Formulaic prayers provide a structured way to pray and express shared beliefs and petitions. An example is the Lord's Prayer, Hail Mary, or Apostles' Creed."
+            },
+            {
+                question: "Why is the Lord’s Prayer considered the perfect prayer, and what five elements does it contain?",
+                answer: "The Lord’s Prayer is considered perfect because Jesus Himself taught it. It contains elements of praise, petition for daily needs, forgiveness, protection from evil, and acknowledgement of God's kingdom and power."
+            },
+            {
+                question: "What are J.L. Mackie's and David Hume's challenges to God's goodness?",
+                answer: "Mackie argues the inconsistency of an omnipotent, omnibenevolent God existing with evil. Hume questions why an all-good, all-powerful God permits such extensive suffering, suggesting a limitation in His attributes."
+            },
+
+            // Section 54: Prayer for the Dead & Purgatory
+            {
+                question: "What do Catholics believe about purgatory, and what is its purpose?",
+                answer: "Catholics believe purgatory is a state of purification for those who die in God's grace but are not yet perfectly purified. Its purpose is to cleanse them of venial sins or temporal punishment due to sin before entering heaven."
+            },
+            {
+                question: "Why do Catholics pray for the souls of the dead, and how does this help them on their journey?",
+                answer: "Catholics pray for the dead out of charity and belief in the communion of saints. These prayers help the souls in purgatory by assisting their purification and speeding their journey to full communion with God in heaven."
+            },
+            {
+                question: "What is a Mass for the Dead, and what is its goal in asking God to be merciful to the deceased?",
+                answer: "A Mass for the Dead (Requiem Mass) is a liturgical prayer offered for the deceased. Its goal is to ask God to be merciful to the soul of the departed, granting them forgiveness for sins and eternal rest."
+            },
+            {
+                question: "What is the communion of saints, and how does this belief support the practice of praying for the dead?",
+                answer: "The communion of saints is the spiritual union of all believers, living and dead, in Christ. It supports praying for the dead by affirming that those on Earth, in purgatory, and in heaven are connected and can intercede for one another."
+            },
+            {
+                question: "Who taught the Lord’s Prayer, and why is it considered the perfect prayer?",
+                answer: "Jesus taught the Lord’s Prayer, and it's considered perfect because it provides a comprehensive model for prayer, covering all essential elements of Christian worship and petition."
+            },
+
+            // Section 55: Rosary & Sorrowful Mysteries
+            {
+                question: "What is the Rosary, and what does it help Catholics meditate on, particularly regarding the Incarnation?",
+                answer: "The Rosary is a popular devotion involving repetitive prayers (Hail Marys) while meditating on the mysteries of Christ's life, death, and resurrection. It particularly helps Catholics meditate on the Incarnation through its various mysteries."
+            },
+            {
+                question: "What do the Sorrowful Mysteries focus on, and what two aspects of Christ are highlighted by meditating on them?",
+                answer: "The Sorrowful Mysteries focus on the suffering and death of Jesus (e.g., Agony in the Garden, Crucifixion). Meditating on them highlights Christ's profound love for humanity and His sacrificial obedience to the Father's will."
+            },
+            {
+                question: "How does meditating on the Sorrowful Mysteries deepen understanding of Jesus' full humanity and divinity?",
+                answer: "It deepens understanding by showing Jesus' human experience of pain, fear, and sorrow (full humanity), while His willingness to endure such suffering for humanity's salvation demonstrates His divine love and power (full divinity)."
+            },
+            {
+                question: "What does praying the Rosary allow Catholics to do with their own suffering, and how does this give meaning to human pain?",
+                answer: "Praying the Rosary allows Catholics to unite their own suffering with Christ’s suffering on the cross. This gives meaning to human pain by seeing it transformed and given redemptive value through participation in Christ's Passion."
+            },
+            {
+                question: "What is purgatory, and why do Catholics pray for the souls of the dead?",
+                answer: "Purgatory is a state of purification after death. Catholics pray for the dead to assist their purification and help them enter heaven, out of charity and belief in the communion of saints."
+            },
+
+            // Section 56: Pilgrimage (Lourdes & Suffering)
+            {
+                question: "What do Catholics believe pilgrimage is, and when is it especially undertaken?",
+                answer: "Catholics believe pilgrimage is a spiritual journey to a sacred place undertaken for religious reasons, such as seeking healing, penance, or deeper faith. It is especially undertaken during times of personal struggle or faith seeking."
+            },
+            {
+                question: "What is Lourdes, and what two things do many pilgrims seek there through prayer and the waters of the spring?",
+                answer: "Lourdes is a major Marian pilgrimage site in France where the Virgin Mary appeared to St. Bernadette. Many pilgrims seek physical healing and spiritual renewal through prayer and bathing in the spring waters."
+            },
+            {
+                question: "What do Catholics believe can be united with Christ’s suffering, and how does pilgrimage offer a way to find hope, strength, and meaning in pain?",
+                answer: "Catholics believe their own suffering can be united with Christ’s suffering on the cross. Pilgrimage offers a path to find hope, strength, and meaning in pain through prayer, penance, solidarity with others, and seeking divine intervention."
+            },
+            {
+                question: "What three things can visiting Lourdes provide comfort through, including the experience of being part of a faith community?",
+                answer: "Visiting Lourdes can provide comfort through prayer and spiritual reflection, the experience of being part of a supportive faith community, and the hope of healing (physical or spiritual) and divine consolation."
+            },
+            {
+                question: "What is the Rosary, and what do the Sorrowful Mysteries focus on?",
+                answer: "The Rosary is a popular devotion involving repetitive prayers and meditation on Christ's life. The Sorrowful Mysteries focus on the suffering and death of Jesus Christ."
+            },
+
+            // Section 57: Catholic Social Teaching (Imago Dei & Stewardship)
+            {
+                question: "What does the Catholic belief that all people are made in the image of God mean, and what two qualities do humans have because they are imago Dei?",
+                answer: "It means every human possesses inherent dignity and value. Humans have intelligence and free will because they are 'imago Dei' (image of God), reflecting God's own attributes."
+            },
+            {
+                question: "What responsibility are humans created with according to the Genesis narratives, and what does stewardship mean in this context?",
+                answer: "Humans are created with the responsibility of 'stewardship' over creation. This means caring for, protecting, and sustaining the Earth and its resources on God's behalf."
+            },
+            {
+                question: "What did Pope Francis emphasise in Laudato Si’ regarding the environment, and what is caring for the environment considered?",
+                answer: "In Laudato Si’, Pope Francis emphasised the urgent need for ecological conversion and care for our 'common home.' Caring for the environment is considered a moral and spiritual imperative, integral to faith."
+            },
+            {
+                question: "What does Gaudium et Spes 29 teach about discrimination, and why is it considered against God’s will?",
+                answer: "Gaudium et Spes 29 teaches that all forms of discrimination based on race, origin, social condition, or religion are 'contrary to God's intent.' It's against God's will because it denies the inherent dignity of the human person created in His image."
+            },
+            {
+                question: "What is pilgrimage in Catholic belief, and what is its purpose for individuals?",
+                answer: "Pilgrimage is a spiritual journey to a sacred place. Its purpose for individuals is to seek spiritual growth, penance, healing, or to deepen their relationship with God."
+            },
+
+            // Section 58: Catholic Social Teaching (Peace, Justice & Action)
+            {
+                question: "What does Gaudium et Spes 78 emphasise about peace, and how is peace defined beyond the absence of war?",
+                answer: "Gaudium et Spes 78 emphasises that 'peace is not merely the absence of war.' It is defined as 'the fruit of justice,' built on a moral order founded on truth, freedom, and charity."
+            },
+            {
+                question: "What two things are required for peace based on human dignity, and how does this broaden the understanding of working for a just society?",
+                answer: "Peace requires justice and reconciliation, built on human dignity. This broadens understanding beyond military solutions to include addressing root causes of conflict like poverty, inequality, and human rights violations."
+            },
+            {
+                question: "What does the idea of imago Dei inspire in Catholic Social Teaching, and what three actions does it inspire Catholics to work for?",
+                answer: "Imago Dei inspires Catholic Social Teaching to uphold human dignity. It inspires Catholics to work for justice, peace, and reconciliation in all relationships and societies."
+            },
+            {
+                question: "Name three actions seen by Catholics as living out the belief that every person reflects God’s image (e.g., supporting charities, promoting human rights).",
+                answer: "Three actions are supporting charities that aid the poor and vulnerable, promoting human rights for all, and working for social justice in society."
+            },
+            {
+                question: "What did Pope Francis emphasise in Laudato Si’ regarding caring for the environment?",
+                answer: "Pope Francis emphasized that caring for the environment is a moral imperative, an integral part of faith, and our responsibility as stewards of God's creation."
+            },
+
+            // Section 59: Catholic Charities (CAFOD & SVP)
+            {
+                question: "What do Catholic charities like CAFOD reflect, and what kind of projects does it support globally?",
+                answer: "Catholic charities like CAFOD (Catholic Agency for Overseas Development) reflect the Catholic belief in the dignity of the human person and solidarity. It supports projects globally that fight poverty and injustice."
+            },
+            {
+                question: "What two Catholic teachings does CAFOD's work reflect, and which biblical passage commands to 'love your neighbour'?",
+                answer: "CAFOD's work reflects the teachings of Catholic Social Teaching (e.g., dignity of the human person, common good) and the Gospel call to 'love your neighbour' (e.g., Matthew 22:39, Luke 10:27)."
+            },
+            {
+                question: "What is the St Vincent de Paul Society (SVP), and what kind of help does it provide in communities?",
+                answer: "The St Vincent de Paul Society (SVP) is a Catholic lay organisation that provides person-to-person support to those in need in local communities through acts of charity."
+            },
+            {
+                question: "What is SVP’s work rooted in, and which biblical passage states 'faith without works is dead'?",
+                answer: "SVP’s work is rooted in faith and the belief that showing love through action is central to faith. It is inspired by James 2:17: 'faith by itself, if it is not accompanied by action, is dead.'"
+            },
+            {
+                question: "What does Gaudium et Spes 78 emphasize about peace, and what is required for it?",
+                answer: "Gaudium et Spes 78 emphasizes that peace is 'the fruit of justice,' requiring a moral order founded on truth, freedom, and charity, going beyond just the absence of war."
+            },
+
+            // Section 60: Interfaith Dialogue & Evangelisation (Catholic View)
+            {
+                question: "What does the Catholic Church see interfaith dialogue as, and what three things does it promote?",
+                answer: "The Catholic Church sees interfaith dialogue as a vital way to promote mutual understanding, respect, and cooperation among people of different religious traditions."
+            },
+            {
+                question: "Which Second Vatican Council document encourages Catholics regarding other religions, and what does it call for Catholics to recognise?",
+                answer: "Nostra Aetate (Declaration on the Relation of the Church to Non-Christian Religions) encourages Catholics to recognise and appreciate the spiritual and moral truths found in other religions."
+            },
+            {
+                question: "What does Catholic teaching emphasise regarding evangelisation, and who outlined this imperative in Evangelii Gaudium?",
+                answer: "Catholic teaching emphasises the imperative to evangelise – to share the Good News of Jesus Christ. Pope Francis outlined this imperative in his Apostolic Exhortation, *Evangelii Gaudium* (The Joy of the Gospel)."
+            },
+            {
+                question: "What does Evangelii Gaudium encourage Catholics to share, and what drives Catholic attitudes towards mission and evangelisation?",
+                answer: "Evangelii Gaudium encourages Catholics to share the 'joy of the Gospel' through their lives and words. Catholic attitudes towards mission and evangelisation are driven by love for Jesus and the experience of salvation."
+            },
+            {
+                question: "Name three specific ways the St Vincent de Paul Society (SVP) helps people in need.",
+                answer: "SVP helps people in need through home visits, providing food and household items, offering emotional support, and assisting with access to other services."
+            },
+
+            // Section 61: Evangelisation in Britain & Death/Funeral Beliefs
+            {
+                question: "What two things does evangelising in Britain present, and what did the 2011 census show about Christianity in the UK?",
+                answer: "Evangelising in Britain presents both opportunities and challenges. The 2011 census showed that while Christianity remained the largest religion, there was a significant increase in those with no religion and other faiths."
+            },
+            {
+                question: "What aspects of U.K. life are deeply rooted in the Christian tradition, and what does this reflect?",
+                answer: "U.K. laws, traditions (e.g., bank holidays like Christmas/Easter), and cultural values are deeply rooted in the Christian tradition, reflecting its historical influence on the nation's identity and moral framework."
+            },
+            {
+                question: "How does Catholic teaching view death, and what three possible destinations await the soul after particular judgment?",
+                answer: "Catholic teaching views death as a transition to eternal life. After particular judgment, the soul may go to Heaven, Purgatory, or Hell."
+            },
+            {
+                question: "What is the Paschal candle, and what does it symbolise and represent in Catholic funeral rites?",
+                answer: "The Paschal candle is a large, decorated candle lit during Easter. In funeral rites, it symbolises the risen Christ (light overcoming darkness) and represents the hope of resurrection and eternal life for the deceased, who share in Christ's victory over death through baptism."
+            },
+            {
+                question: "What does the Catholic Church see interfaith dialogue as, and what does it help reduce in a multicultural society like Great Britain?",
+                answer: "The Catholic Church sees interfaith dialogue as a vital way to promote mutual understanding and respect. It helps reduce prejudice and promote social harmony in a multicultural society like Great Britain."
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+        const flashcardFront = document.getElementById('flashcard-front');
+        const flashcardBack = document.getElementById('flashcard-back');
+        const toggleButton = document.getElementById('toggleAnswer');
+        const prevButton = document.getElementById('prevCard');
+        const nextButton = document.getElementById('nextCard');
+        const currentCardNumSpan = document = document.getElementById('currentCardNum');
+        const totalCardsSpan = document.getElementById('totalCards');
+
+        /**
+         * Displays the current flashcard (question side) based on the currentCardIndex.
+         * Updates the card number display.
+         */
+        function displayCard() {
+            // Set the question on the front of the card
+            flashcardFront.innerHTML = `<p class="text-center">${flashcards[currentCardIndex].question}</p>`;
+            // Set the answer on the back of the card
+            flashcardBack.innerHTML = `<p class="text-center">${flashcards[currentCardIndex].answer}</p>`;
+
+            // Update card counter
+            currentCardNumSpan.textContent = currentCardIndex + 1;
+            totalCardsSpan.textContent = flashcards.length;
+
+            // Ensure card is on the front side when a new question is displayed
+            if (isFlipped) {
+                flashcardElement.classList.remove('flipped');
+                isFlipped = false;
+                toggleButton.textContent = 'Show Answer';
+            }
+        }
+
+        /**
+         * Toggles the flip state of the flashcard, showing either the question or the answer.
+         */
+        function toggleAnswer() {
+            isFlipped = !isFlipped;
+            flashcardElement.classList.toggle('flipped', isFlipped);
+            toggleButton.textContent = isFlipped ? 'Hide Answer' : 'Show Answer';
+        }
+
+        /**
+         * Navigates to the next flashcard in the array.
+         * Wraps around to the beginning if at the end.
+         */
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+            displayCard();
+        }
+
+        /**
+         * Navigates to the previous flashcard in the array.
+         * Wraps around to the end if at the beginning.
+         */
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + flashcards.length) % flashcards.length;
+            displayCard();
+        }
+
+        // Add event listeners to buttons
+        toggleButton.addEventListener('click', toggleAnswer);
+        prevButton.addEventListener('click', prevCard);
+        nextButton.addEventListener('click', nextCard);
+
+        // Initial display of the first card
+        document.addEventListener('DOMContentLoaded', displayCard);
+
+        // PWA: Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Changed from '/service-worker.js' to 'service-worker.js'
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
